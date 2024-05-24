@@ -37,57 +37,85 @@ if (userChoice === "paper" || userChoice === "rock" || userChoice === "scissor")
 
     }
 }
+//CREATE function to play a full game
+function playGame() {
+    //MOVE playround and variables inside the new function
+
+    //CREATE 2 variables for each player score
+    //AND initialize them to 0
+    let humanScore = 0;
+    let computerScore = 0;
+    //REPEAT 5 rounds of game
+
+    for (let i = 0; i < 5; i++) {
+        //GET both human and computer choice
+        let humanSelection = getHumanChoice();
+        let computerSelection = getComputerChoice();
+
+        playRound(humanSelection, computerSelection);
+    }
+
+    //PRINT winner of the game
+    //IF player won- print he won
+
+    if (humanScore > computerScore) {
+
+        console.log("You Won The Game!");
+    //  IF player lost, print he lost
+    } else if (humanScore < computerScore) {
+
+        console.log("You Lost The Game!");
+    //  IF player drew, print he drew
+    } else {
+
+        console.log("You Drew The Game");
+
+    }
 
 
-//CREATE 2 variables for each player score
-//AND initialize them to 0
-let humanScore = 0;
-let computerScore = 0;
-
-//CREATE a function to play the game
-function playRound(humanChoice, computerChoice) {
-//DECIDE who wins the round- Check human choice and compare to computer choice
-//PRINT a string representing what was played
-//INCREMENT a score acording to the result
-switch(humanChoice) {
-    case "rock":
-        if (computerChoice === "paper") {
-            console.log(roundEndMessage(humanChoice, computerChoice, "lose"));
-            computerScore++; 
-        } else if (computerChoice === "scissor") {
-            console.log(roundEndMessage(humanChoice, computerChoice, "win"));
-            humanScore++;
-        } else {
-            console.log(roundEndMessage(humanChoice, computerChoice, "draw"));
+    //CREATE a function to play a round
+    function playRound(humanChoice, computerChoice) {
+        //DECIDE who wins the round- Check human choice and compare to computer choice
+        //CALL a function to print who won
+        //INCREMENT a score acording to the result
+        switch(humanChoice) {
+            case "rock":
+                if (computerChoice === "paper") {
+                    console.log(roundEndMessage(humanChoice, computerChoice, "lose"));
+                    computerScore++; 
+                } else if (computerChoice === "scissor") {
+                    console.log(roundEndMessage(humanChoice, computerChoice, "win"));
+                    humanScore++;
+                } else {
+                    console.log(roundEndMessage(humanChoice, computerChoice, "draw"));
+                }
+                break;
+        
+            case "paper":
+                if (computerChoice === "scissor") {
+                    console.log(roundEndMessage(humanChoice, computerChoice, "lose"));
+                    computerScore++;
+                } else if (computerChoice === "rock") {
+                    console.log(roundEndMessage(humanChoice, computerChoice, "win"));
+                    humanScore++;
+                } else {
+                    console.log(roundEndMessage(humanChoice, computerChoice, "draw"));
+                }
+                break;
+        
+            case "scissor":
+                if (computerChoice === "rock") {
+                    console.log(roundEndMessage(humanChoice, computerChoice, "lose"));
+                    computerScore++;
+                } else if (computerChoice === "paper") {
+                    console.log(roundEndMessage(humanChoice, computerChoice, "win"));
+                    humanScore++;      
+                } else {
+                    console.log(roundEndMessage(humanChoice, computerChoice, "draw"));
+                }
+                break;
+            }
         }
-        break;
-
-    case "paper":
-        if (computerChoice === "scissor") {
-            console.log(roundEndMessage(humanChoice, computerChoice, "lose"));
-            computerScore++;
-        } else if (computerChoice === "rock") {
-            console.log(roundEndMessage(humanChoice, computerChoice, "win"));
-            humanScore++;
-        } else {
-            console.log(roundEndMessage(humanChoice, computerChoice, "draw"));
-        }
-        break;
-
-    case "scissor":
-        if (computerChoice === "rock") {
-            console.log(roundEndMessage(humanChoice, computerChoice, "lose"));
-            computerScore++;
-        } else if (computerChoice === "paper") {
-            console.log(roundEndMessage(humanChoice, computerChoice, "win"));
-            humanScore++;      
-        } else {
-            console.log(roundEndMessage(humanChoice, computerChoice, "draw"));
-        }
-        break;
-}
-
-
 }
 
 //CREATE a function to return the string
@@ -107,8 +135,6 @@ function roundEndMessage(humanChoice, computerChoice, status) {
         return `You draw! ${humanChoice} draws ${computerChoice}`;
     }
 }
-//GET both human and computer choice
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
 
-playRound(humanSelection, computerSelection);
+playGame();
+
