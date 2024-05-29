@@ -1,5 +1,6 @@
 // write a function that returns the computer choice- rock, paper or scissors
-
+humanScore = 0;
+computerScore = 0;
 // CREATE function to randomly choose computer choice
 function getComputerChoice() {
     // GET random number between 0 and 2 with math.random
@@ -19,104 +20,79 @@ function getComputerChoice() {
 }
 
 
-//CREATE function to validate user choice
-function getHumanChoice() {
-//GET user choice to play
-let userChoice = prompt("What's is your choice?");
-//MODIFY the user input by lowercasing it
-userChoice = userChoice.toLowerCase();
-//VALIDATE the user choice- has to be rock/paper/scissor
-if (userChoice === "paper" || userChoice === "rock" || userChoice === "scissor")
-    {
-        //IF valid return the choice
-        return userChoice;
 
-    // ELSE repeat the process
-    } else {
-       return getHumanChoice();
-
-    }
-}
-//CREATE function to play a full game
-function playGame() {
-    //MOVE playround and variables inside the new function
-
-    //CREATE 2 variables for each player score
-    //AND initialize them to 0
-    let humanScore = 0;
-    let computerScore = 0;
-    //REPEAT 5 rounds of game
-
-    for (let i = 0; i < 5; i++) {
-        //GET both human and computer choice
-        let humanSelection = getHumanChoice();
-        let computerSelection = getComputerChoice();
-
-        playRound(humanSelection, computerSelection);
-    }
-
-    //PRINT winner of the game
-    //IF player won- print he won
-
-    if (humanScore > computerScore) {
-
-        console.log("You Won The Game!");
-    //  IF player lost, print he lost
-    } else if (humanScore < computerScore) {
-
-        console.log("You Lost The Game!");
-    //  IF player drew, print he drew
-    } else {
-
-        console.log("You Drew The Game");
-
-    }
+//CREATE a function to play a round
+function playRound(humanChoice, computerChoice) {
+//DECIDE who wins the round- Check human choice and compare to computer choice
+//CALL a function to print who won
+//INCREMENT a score acording to the result
 
 
-    //CREATE a function to play a round
-    function playRound(humanChoice, computerChoice) {
-        //DECIDE who wins the round- Check human choice and compare to computer choice
-        //CALL a function to print who won
-        //INCREMENT a score acording to the result
-        switch(humanChoice) {
-            case "rock":
-                if (computerChoice === "paper") {
-                    console.log(roundEndMessage(humanChoice, computerChoice, "lose"));
-                    computerScore++; 
-                } else if (computerChoice === "scissor") {
-                    console.log(roundEndMessage(humanChoice, computerChoice, "win"));
-                    humanScore++;
-                } else {
-                    console.log(roundEndMessage(humanChoice, computerChoice, "draw"));
-                }
-                break;
-        
-            case "paper":
-                if (computerChoice === "scissor") {
-                    console.log(roundEndMessage(humanChoice, computerChoice, "lose"));
-                    computerScore++;
-                } else if (computerChoice === "rock") {
-                    console.log(roundEndMessage(humanChoice, computerChoice, "win"));
-                    humanScore++;
-                } else {
-                    console.log(roundEndMessage(humanChoice, computerChoice, "draw"));
-                }
-                break;
-        
-            case "scissor":
-                if (computerChoice === "rock") {
-                    console.log(roundEndMessage(humanChoice, computerChoice, "lose"));
-                    computerScore++;
-                } else if (computerChoice === "paper") {
-                    console.log(roundEndMessage(humanChoice, computerChoice, "win"));
-                    humanScore++;      
-                } else {
-                    console.log(roundEndMessage(humanChoice, computerChoice, "draw"));
-                }
-                break;
-            }
+
+const divText = document.querySelector("div");
+const divScore = document.querySelector(".score");
+
+
+
+switch(humanChoice) {
+    case "rock":
+        if (computerChoice === "paper") {
+            divText.textContent = roundEndMessage(humanChoice, computerChoice, "lose");
+            computerScore++; 
+        } else if (computerChoice === "scissor") {
+            divText.textContent = roundEndMessage(humanChoice, computerChoice, "win");
+            humanScore++;
+        } else {
+            divText.textContent = roundEndMessage(humanChoice, computerChoice, "draw");
         }
+        break;
+
+    case "paper":
+        if (computerChoice === "scissor") {
+            divText.textContent = roundEndMessage(humanChoice, computerChoice, "lose");
+            computerScore++;
+        } else if (computerChoice === "rock") {
+            divText.textContent = roundEndMessage(humanChoice, computerChoice, "win");
+            humanScore++;
+        } else {
+            divText.textContent = roundEndMessage(humanChoice, computerChoice, "draw");
+        }
+        break;
+
+    case "scissor":
+        if (computerChoice === "rock") {
+            divText.textContent = roundEndMessage(humanChoice, computerChoice, "lose");
+            computerScore++;
+        } else if (computerChoice === "paper") {
+            divText.textContent = roundEndMessage(humanChoice, computerChoice, "win");
+            humanScore++;      
+        } else {
+            divText.textContent = roundEndMessage(humanChoice, computerChoice, "draw");
+        }
+        break;
+    }
+
+    divScore.textContent = `Human:${humanScore} | Computer:${computerScore}`;
+
+    if (humanScore === 5 || computerScore === 5) {
+
+        if (humanScore > computerScore) {
+            
+            setTimeout(function() {
+                alert("You Won The Game!"); 
+            }, 0)
+        } else {
+            
+            setTimeout(function() {
+                alert("You Lost The Game!"); 
+            }, 0)
+        }
+
+        humanScore = 0;
+        computerScore = 0;
+    }
 }
+
 
 //CREATE a function to return the string
 function roundEndMessage(humanChoice, computerChoice, status) {
@@ -136,5 +112,15 @@ function roundEndMessage(humanChoice, computerChoice, status) {
     }
 }
 
-playGame();
+
+//SELECT all buttons
+//ADD eventlistener for humanchoice for the game
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach(function (button) {
+    button.addEventListener("click", function () {
+        playRound(button.innerText, getComputerChoice())
+    })
+})
+
 
